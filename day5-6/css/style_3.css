@@ -1,0 +1,53 @@
+.head {
+    top: 0;
+    height: 80px;
+    width: 100%;
+    color: white;
+    background-color: rgb(91, 96, 100);
+}
+
+h1 {
+    padding: 20px 0px 20px 20px;
+}
+
+.head_ {
+    float: left;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    background-color: rgb(196, 199, 201);
+}
+
+h2 {
+    text-align: center;
+    padding-top: 30px;
+}
+
+table {
+    border-spacing: 10px 0px;
+    height: 150px;
+    overflow: auto;
+}
+
+th,
+td {
+    text-align: left;
+}
+
+/* 子元素选择器：和后代选择器相比，缩小范围，只选择某个元素的子元素
+
+这种效果也可以用 类选择器结合元素选择器来实现。
+*/
+
+div > div {
+    border-bottom: 2px solid rgb(220, 224, 226);
+    border-right: 2px solid rgb(220, 224, 226);
+}
+
+/* 类选择器+元素选择器
+
+div.style1 {
+    border-bottom: 2px solid rgb(220, 224, 226);
+    border-right: 2px solid rgb(220, 224, 226);
+}
+*/
