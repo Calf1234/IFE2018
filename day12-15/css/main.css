@@ -1,0 +1,485 @@
+head,
+body {
+    height: 100%;
+}
+
+body {
+    font: 12px "Montserrat";
+    background: #fff;
+    -webkit-text-size-adjust: 100%;
+}
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.clearfix:after {
+    content: ".";
+    clear: both;
+    height: 0;
+    overflow: hidden;
+    display: block;
+    visibility: hidden;
+}
+
+.wrap {
+    height: 100%;
+    min-width: 1200px;
+}
+
+li {
+    list-style: none
+}
+
+/*leftbox*/
+
+.leftbox {
+    z-index: 998;
+    position: fixed;
+    left: 0;
+    top: 0;
+    text-align: center;
+    width: 100px;
+    background-color: #1d2531;
+    height: 100%;
+}
+
+.apps {
+    padding-top: 20px;
+}
+
+.leftbox .icon {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.active {
+    position: absolute;
+    top: 20px;
+    left: 0;
+}
+
+.leftbox .setting {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+}
+
+.leftbox .setting span {
+    padding: 0 8px;
+}
+
+/*menu*/
+
+.menu {
+    box-sizing: border-box;
+    z-index: 998;
+    position: fixed;
+    left: 100px;
+    top: 0;
+    background-color: #222c3c;
+    width: 250px;
+    padding: 0px 30px;
+    color: #b7c0cd;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.menu ul {
+    padding: 0;
+    border-bottom: 1px solid #2a3547;
+}
+
+.menu .title {
+    font-size: 12px;
+    color: #5b6779;
+    font-weight: 500;
+    margin-top: 30px;
+}
+
+.menu li {
+    margin-bottom: 25px;
+    font-weight: 300;
+    position: relative;
+}
+
+.menu li a {
+    color: #b7c0cd;
+    text-decoration: none;
+}
+
+.menu li a:hover {
+    color: #fff;
+}
+
+.menu .title span {
+    float: right;
+}
+
+.menu li .numb {
+    width: 32px;
+    height: 24px;
+    background-color: #2da0f8;
+    border-radius: 12px;
+    color: #fff;
+    display: inline-block;
+    text-align: center;
+    line-height: 24px;
+    /* float: right; */
+    position: absolute;
+    top: -3px;
+    right: 0;
+    font-weight: bold;
+}
+
+.menu .menu-active img {
+    position: absolute;
+    top: -2px;
+    left: -30px;
+}
+
+.menu .warning {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background-color: #f45438;
+    color: #fff;
+    font-weight: 500;
+    float: right;
+    line-height: 24px;
+    text-align: center;
+}
+
+.goals {
+    position: fixed;
+    bottom: 0;
+    left: 100px;
+    height: 80px;
+    text-align: center;
+    background-color: #222c3c;
+    padding-top: 20px;
+    width: 250px;
+    border-top: 1px solid #1d2531;
+}
+
+.goals span {
+    padding: 0 8px;
+    font-size: 16px;
+}
+
+.goals .progressbar {
+    background-color: #2d3848;
+    height: 4px;
+    width: 190px;
+    margin-top: 14px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+
+.goals .present {
+    background-color: #917ae4;
+    height: 4px;
+    width: 40px;
+    border-radius: 2px;
+    position: absolute;
+    left: 31px;
+    top: 52px;
+}
+
+/*content*/
+
+.content {
+    position: relative;
+    left: 350px;
+    top: 0;
+    width: calc(100% - 350px);
+    background-color: #fff;
+}
+
+.content .title-wrap {
+    border-bottom: 1px solid #e6e9ec;
+}
+
+.content .title {
+    float: left;
+    font-size: 24px;
+    color: #333;
+    height: 80px;
+    line-height: 80px;
+    padding-left: 32px;
+}
+
+.content .user {
+    float: right;
+    padding-right: 80px;
+    position: relative;
+    margin-top: 14px;
+}
+
+.content .user .photo {
+    float: left;
+    margin-right: 16px;
+}
+
+.content .user .userinfo {
+    padding-top: 6px;
+    padding-left: 66px;
+}
+
+.content .user p:nth-child(1) {
+    font-size: 16px;
+    color: #2399f1;
+}
+
+.content .user p:nth-child(2) {
+    font-size: 12px;
+    color: #999;
+}
+
+.content .user .arrow {
+    position: absolute;
+    top: 18px;
+    left: 180px;
+}
+
+.container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+}
+
+.container .contact {
+    width: 400px;
+    border-right: 1px solid #e6e9ec;
+}
+
+.container .contact .search {
+    height: 70px;
+    position: relative;
+    padding: 15px 28px;
+    border-bottom: 1px solid #e6e9ec;
+}
+
+.container .contact .search input {
+    width: 340px;
+    height: 36px;
+    border: 1px solid #e6e9ec;
+    border-radius: 4px;
+    text-indent: 12px;
+}
+
+.container .contact .search img {
+    position: absolute;
+    top: 26px;
+    right: 40px;
+}
+
+.listname ul {
+    padding: 0;
+}
+
+.listname ul li {
+    height: 130px;
+    border-bottom: 1px solid #e6e9ec;
+    box-sizing: border-box;
+    padding: 18px 28px;
+}
+
+.listname ul li .photo {
+    float: left;
+    margin-right: 18px;
+}
+
+.listname ul li h3 {
+    margin-top: 8px;
+    font-size: 16px;
+    color: #585d68;
+    font-weight: 400;
+}
+
+.listname ul li h3 span {
+    float: right;
+    font-size: 12px;
+    font-weight: 300;
+}
+
+.listname ul li h6 {
+    margin-top: 2px;
+    font-size: 12px;
+    color: #585d68;
+    font-weight: 200;
+    margin-bottom: 18px
+}
+
+.listname ul li div:nth-child(3) {
+    font-size: 12px;
+    color: #585d68;
+    line-height: 1.5em;
+    font-weight: 300;
+}
+
+.listname ul .talking {
+    border-left: 3px solid #2399f1;
+    position: relative;
+}
+
+.listname ul .talking div:nth-child(3) {
+    padding-right: 30px;
+}
+
+.listname ul .talking:after {
+    content: "4";
+    display: inline-block;
+    background-color: #2399f1;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    text-align: center;
+    line-height: 24px;
+    color: #FFF;
+    position: absolute;
+    right: 26px;
+    top: 82px;
+}
+
+.chat {
+    position: absolute;
+    top: 0;
+    left: 0px;
+    width: 100%;
+}
+
+.chat .chattitle {
+    border-bottom: 1px solid #e6e9ec;
+    box-sizing: border-box;
+    height: 70px;
+    display: inline-block;
+    width: 100%;
+    padding-left: 400px
+}
+
+.chat .chattitle h1 {
+    font-size: 18px;
+    line-height: 70px;
+    padding-left: 20px;
+    display: inline-block;
+}
+
+.chat .chattitle h1:after {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    background-color: #1bb934;
+    margin-left: 16px;
+}
+
+.chat .btngroup {
+    float: right;
+    display: inline-block;
+    margin-top: 18px;
+}
+
+.chat .btngroup div {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.chat .news {
+    padding-left: 400px;
+}
+
+.chat .news .last {
+    position: relative;
+    padding: 24px 30px;
+    border-bottom: 1px solid #e6e9ec;
+}
+
+.chat .news .last .we {
+    margin-bottom: 20px;
+}
+
+.chat .news .last .mephoto {
+    float: left;
+    margin-right: 24px;
+}
+
+.txt div:first-child {
+    font-size: 16px;
+    font-weight: 300;
+    margin-bottom: 12px;
+}
+
+.txt div:first-child span {
+    font-size: 12px;
+    color: #7f8fa4;
+    margin-left: 8px;
+}
+
+.txt div:nth-child(2) {
+    padding-left: 69px;
+    line-height: 1.5em;
+    color: #585d68;
+    font-weight: 300;
+    margin-bottom: 8px;
+}
+
+.txt div:nth-child(3) {
+    padding-left: 69px;
+}
+
+.txt div:nth-child(3) a {
+    margin-right: 4px;
+}
+
+.history {
+    display: block;
+    background-color: #fff;
+    padding: 8px 8px;
+    font-size: 16px;
+    color: #7f8fa4;
+    font-weight: 300;
+    text-align: center;
+}
+
+.news .newmessage {
+    border-bottom: 1px solid #2a9ff6 !important;
+}
+
+.newmessage .history {
+    color: #7f8fa4;
+}
+
+.news .send {
+    position: fixed;
+    border-bottom: none !important;
+}
+
+.news .send .history {
+    color: #2a9ff6;
+}
+
+.newsbox {
+    height: 80px;
+    padding: 0 50px;
+    position: relative;
+}
+
+.newsbox .newsbox-input {
+    border: 1px solid #ced0da;
+    height: 52px;
+    background-color: #fff;
+    border-radius: 6px;
+    margin: 0 auto;
+}
+
+.newsbox .add {
+    position: absolute;
+    top: 0;
+    left: 50px;
+}
