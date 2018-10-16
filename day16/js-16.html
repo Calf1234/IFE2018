@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>IFE ECMAScript</title>
+
+    <!-- <script>
+        //获取的obj为null，这样设置onclick会出现异常
+        var obj = document.getElementById("add-btn");
+        alert(obj);
+    </script> -->
+</head>
+
+<body>
+    <input id="first-number" type="number" value="0" placeholder="第一个数字">
+    <input id="second-number" type="number" value="0" placeholder="第二个数字">
+    <button id="add-btn">加</button>
+    <button id="minus-btn">减</button>
+    <button id="times-btn">乘</button>
+    <button id="divide-btn">除</button>
+    <p id="result">运算结果</p>
+
+    
+    <script>
+
+        var num1, num2;
+
+        // 此处获取到的num1 num2都是设置的初始值0
+        // num1 = document.getElementById("first-number").value;
+        // num2 = docuum1 = document.getElementById("first-number").value;ment.getElementById("second-number").value;
+
+        document.getElementById("add-btn").onclick = function () {
+            num1 = document.getElementById("first-number").value;
+            num2 = document.getElementById("second-number").value;
+
+            if (isNaN(num1)) {
+                alert(num1 + "is not a number");
+            }
+
+            if (isNaN(num2)) {
+                alert(num2 + "is not a number");
+            }
+
+            // 在异步调用中，有时候要在某个统计数字上加1，而直接用"+"号相连，必定得不到想要的结果，因为默认是两个字符串相连。
+            // document.getElementById("result").innerHTML = num1 + num2;
+
+            document.getElementById("result").innerHTML = parseInt(num1) + parseInt(num2);
+        };
+
+        document.getElementById("minus-btn").onclick = function () {
+            num1 = document.getElementById("first-number").value;
+            num2 = document.getElementById("second-number").value;
+
+            if (isNaN(num1)) {
+                alert(num1 + "is not a number");
+            }
+
+            if (isNaN(num2)) {
+                alert(num2 + "is not a number");
+            }
+
+            document.getElementById("result").innerHTML = num1 - num2;
+        };
+
+        document.getElementById("times-btn").onclick = function () {
+            num1 = document.getElementById("first-number").value;
+            num2 = document.getElementById("second-number").value;
+
+            if (isNaN(num1)) {
+                alert(num1 + "is not a number");
+            }
+
+            if (isNaN(num2)) {
+                alert(num2 + "is not a number");
+            }
+
+            document.getElementById("result").innerHTML = num1 * num2;
+        };
+
+        document.getElementById("divide-btn").onclick = function () {
+            num1 = document.getElementById("first-number").value;
+            num2 = document.getElementById("second-number").value;
+
+            if (isNaN(num1)) {
+                alert(num1 + "is not a number");
+            }
+
+            if (isNaN(num2)) {
+                alert(num2 + "is not a number");
+            }
+
+            document.getElementById("result").innerHTML = num1 / num2;
+        };
+
+    </script>
+
+</body>
+
+</html>
