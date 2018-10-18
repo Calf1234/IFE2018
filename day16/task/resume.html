@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="css/style_2.css" />
     -->
     <link rel="stylesheet" type="text/css" href="style_3.css" />
+
 </head>
 
 <body>
@@ -123,6 +124,7 @@
     </div>
 
     <script>
+
         document.getElementById("btn1").onclick = function () {
             var projectContent = document.getElementById("pro1Content").textContent;
             console.log(projectContent);
@@ -148,7 +150,23 @@
             // 原先设置的height失效
             // 查看到 table下有字节点tbody，tbody下再包含tr节点
             // 而我们是直接在table下添加tr节点
+
         };
+
+        var date = new Date();
+        if (date.getHours() < 12) {
+            window.onload = function () {
+                alert("上午好");
+            };
+        } else if (date.getHours() < 18) {
+            window.onload = function () {
+                alert("下午好");
+            };
+        } else {
+            window.onload = function () {
+                alert("晚上好");
+            };
+        }
     </script>
 </body>
 

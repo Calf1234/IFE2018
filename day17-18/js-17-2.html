@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>day17</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>IFE ECMAScript</title>
+
+        <style>
+            div {
+                width: 100%;
+                padding: 20px;
+                border-bottom: 2px solid black;
+            }
+
+            div table {
+                border: 1px solid red;
+                border-collapse: collapse;
+            }
+
+            tr,
+            td {
+                border: 1px solid red;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div>
+            <input id="dec-number" type="number" placeholder="输入一个十进制非负整数">
+            <input id="bin-bit" type="number" placeholder="输入转化后二进制数字位数">
+            <button id="trans-btn">转化为二进制</button>
+            <p id="result">运算结果</p>
+        </div>
+
+        <div class="task2">
+            <p>从1到100，以此在console输出各数字，但是，当数字为3的倍数或者含有3的时候，输出“PA”
+                <br>比如：1,2,PA,4,5,PA,……,11,PA,PA,14,PA……
+            </p>
+            <button id="printNum">打印生成</button>
+            <p id="printResult">打印结果</p>
+        </div>
+
+        <div class="task3">
+            <p>使用table来实现一个九九乘法表</p>
+            <button id="printTable">生成乘法表</button>
+        </div>
+
+        <script>
+
+            function dec2bin(decNumber) {
+                // 在这里实现你的转化方法，注意需要判断输入必须为一个非负整数
+                var stack = "";
+
+                if (decNumber >= 0 && decNumber % 1 == 0) {
+                    var total = "";
+                    var two = decNumber;
+
+                    while (two != 0) {
+                        two = Math.floor(decNumber / 2);
+                        dot = decNumber % 2;
+                        total += dot;
+
+                        decNumber = two;
+                    }
+
+
+                    for (var i = total.length - 1; i >= 0; i--) {
+                        stack += total.charAt(i);
+                    }
+
+                } else {
+                    console.log(decNumber + " is not valid!");
+                }
+
+                return stack;
+            }
+
+            // 实现党点击转化按钮时，将输入的十进制数字转化为二进制，并显示在result的p标签内
+            // 新的需求是，转化显示后的二进制数为bin-bit中输入的数字宽度，例如
+            // dec-number为5，bin-bit为5，则转化后数字为00101
+            // 如果bin-bit小于转化后的二进制本身位数，则使用原本的位数，如dec-number为5，bin-bit为2，依然输出101，但同时在console中报个错
+            // Some coding
+
+            document.getElementById("trans-btn").addEventListener("click", function () {
+                var num = document.getElementById("dec-number").value;
+                var keyNumber = document.getElementById("bin-bit").value;
+
+                var ret = dec2bin(num);
+                if (ret.length == keyNumber) {
+
+                } else if (ret.length > keyNumber) {
+                    console.log("bin-bit不够大!");
+                } else {
+                    var add = "";
+                    for (var i = 1; i <= (keyNumber - ret.length); i++) {
+                        add += 0;
+                    }
+
+                    ret = add + ret;
+                }
+                document.getElementById("result").innerHTML = ret;
+
+            });
+
+
+            document.getElementById("printNum").addEventListener("click", function () {
+                var content = "";
+
+                for (var index = 1; index < 100; index++) {
+
+                    if (index % 3 == 0 || index.toString().match("3") != null) {
+                        content += "PA, ";
+                    } else {
+                        content += index + ", ";
+                    }
+
+                    if (index % 20 == 0) {
+                        content += "<br>";
+                    }
+                }
+
+                document.getElementById("printResult").innerHTML = content;
+            });
+
+
+            document.getElementById("printTable").addEventListener("click", function () {
+                var root = document.querySelector(".task3");
+
+                var tableRoot = document.createElement("table");
+                root.appendChild(tableRoot);
+
+                var tableRow, tableNode;
+
+                for (var i = 1; i < 10; i++) {
+                    tableRow = document.createElement("tr");
+                    for (var j = 1; j <= i; j++) {
+                        tableNode = document.createElement("td");
+                        tableNode.textContent = " " + j + " * " + i + " = " + (i * j);
+                        tableRow.appendChild(tableNode);
+                    }
+
+                    tableRoot.appendChild(tableRow);
+                }
+
+            });
+        </script>
+    </body>
+
+</html>

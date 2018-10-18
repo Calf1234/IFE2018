@@ -30,10 +30,50 @@
 
 
 day17、day18:
-    目标：继续学习 JavaScript 的一些基本知识，比如if如果判断，for循环等
+目标：继续学习 JavaScript 的一些基本知识，比如if如果判断，for循环等
 
-    任务：在你的简历中，实现一个，当用户访问页面的时候，根据当前时间，在页面中输出不同的问候语。比如早上的时候，输出早上好，晚上的时候是晚上好。
+任务：
+1. 阅读 通过除2取余的方法来把十进制整数转化为二进制，然后做一个小练习
+<br>实现当点击转化按钮时，将输入的十进制数字转化为二进制，并显示在result的p标签内
+<br>转化显示后的二进制数为bin-bit中输入的数字宽度，例如
+<br>dec-number为5，bin-bit为5，则转化后数字为00101
+<br>如果bin-bit小于转化后的二进制本身位数，则使用原本的位数，如dec-number为5，bin-bit为2，依然输出101，但同时在console中报个错
 
+2. 3的小游戏，练习使用循环和条件语句，实现如下需求：
+<br>从1到100，以此在console输出各数字，但是，当数字为3的倍数或者含有3的时候，输出“PA”
+<br>比如：1,2,PA,4,5,PA,……,11,PA,PA,14,PA……
+<br>提示：if、for、String.match
+
+3. 小练习，练习使用循环实现一个九九乘法表
+<br>第一步，最低要求：在Console中按行输出 n * m = t
+<br>然后，尝试在网页中，使用table来实现一个九九乘法表
+<br>提示：createElement、appendChild
+
+4. 在你的简历中，实现一个，当用户访问页面的时候，根据当前时间，在页面中输出不同的问候语。
+<br>比如早上的时候，输出早上好，晚上的时候是晚上好。
+<br>提示：Date对象
+
+问题：day16/task/resume.html
+``` js
+    var date = new Date();
+    if (date.getHours() < 12) {
+        // 暂时没有解决，遗留
+        // alert在点击确定前，整个页面都是白色的
+        window.onload = function () {
+            alert("上午好");
+        };
+    } else if (date.getHours() < 18) {
+        window.onload = function () {
+            alert("下午好");
+        };
+    } else {
+        window.onload = function () {
+            alert("晚上好");
+        };
+    }
+```
+
+***
 
 day19:
     目标：掌握 JavaScript 的核心之一：DOM，能够熟悉DOM相关操作，了解JavaScript事件机制
