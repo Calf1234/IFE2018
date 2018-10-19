@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>day19</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        .wrapper {
+            padding: 20px;
+            border-bottom: 1px solid black;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        li button {
+            font-size: 8px;
+            margin-left: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="task1 wrapper">
+        <h1>task1: 一个动态的购物单</h1>
+        <p>做一个简单的购物单的例子，使用表单的输入框和按钮动态的向购物单中添加购物项。
+            <br>1. 在输入中添加项，然后按下按钮： 购物项应该出现在清单中。
+            <br>2. 每个购物项都应该给出一个按钮，可以按下按钮从清单中删除该项。
+            <br>3. 输入框应该是空白的并已聚焦，为你准备好输入另一个项。
+        </p>
+
+        <div>
+            <label for="item">Enter a new item:</label>
+            <input type="text" name="item" id="item">
+            <button>Add item</button>
+        </div>
+
+        <ul>
+
+        </ul>
+    </div>
+
+    <script>
+        var addItem = document.querySelector("button");
+        var input = document.querySelector("input");
+        var itemList = document.querySelector("ul");
+
+        addItem.addEventListener("click", addItemToList);
+        // addItem.onclick = function addItemToList() {
+        function addItemToList() {
+            var item = input.value;
+            input.value = "";
+
+            var liEle = document.createElement("li");
+            var spanEle = document.createElement("span");
+            var buttonEle = document.createElement("button");
+
+            spanEle.textContent = item;
+            liEle.appendChild(spanEle);
+            buttonEle.textContent = "Delete";
+            liEle.appendChild(buttonEle);
+            itemList.appendChild(liEle);
+
+            buttonEle.addEventListener("click", function () {
+                itemList.removeChild(liEle);
+            });
+
+            input.focus();
+        };
+    </script>
+</body>
+
+</html>

@@ -76,7 +76,7 @@ day17、day18:
 ***
 
 day19:
-    目标：掌握 JavaScript 的核心之一：DOM，能够熟悉DOM相关操作，了解JavaScript事件机制
+目标：掌握 JavaScript 的核心之一：DOM，能够熟悉DOM相关操作，了解JavaScript事件机制
 
 
 day20、day21:
