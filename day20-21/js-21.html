@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>day21</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <style>
+        .task1,
+        .task2 {
+            padding: 10px;
+            border-bottom: 1px solid black;
+        }
+
+        .cssSprite {
+            width: 480px;
+            height: 480px;
+            background: url("./img/erik_ce204002.jpg") no-repeat 0 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="task1">
+        <p> 分别使用 setTimeout 和 setInterval 实现以下功能：
+            <br>点击按钮时，开始改变 fade-obj 的透明度，开始一个淡出（逐渐消失）动画，直到透明度为0
+            <br>在动画过程中，按钮的状态变为不可点击
+            <br>在动画结束后，按钮状态恢复，且文字变成“淡入”
+            <br>在 按钮显示 淡入 的状态时，点击按钮，开始一个“淡入”（逐渐出现）的动画，和上面类似按钮不可点，直到透明度完全不透明
+            <br>淡入动画结束后，按钮文字变为“淡出”
+            <br>暂时不要使用 CSS animation （以后我们再学习）</p>
+        <div id="fade-obj" style="width:300px;height:300px;background:#000"></div>
+        <button id="fade-btn">淡出</button>
+    </div>
+
+    <div class="task2">
+        <p>实现一个帧动画：
+            <br>基于一个我们提供的图片，实现 IFE2016中Erik笑容的动画</p>
+
+        <div class="cssSprite"></div>
+        <button id="play-btn">播放动画</button>
+    </div>
+
+    <script>
+        var fadeBtn = document.getElementById("fade-btn");
+        var fadeObj = document.getElementById("fade-obj");
+        fadeBtn.addEventListener("click", fadeAnimation);
+
+        // flag = 1 => "淡出"（逐渐消失）动画
+        // flag = 0 => “淡入”（逐渐出现）的动画
+        var flag = 1;
+
+        // trans = 1,
+        // trans -= 0.2 计算不准确
+        var trans = 10;
+
+        function fadeAnimation() {
+            fadeBtn.disabled = true;
+            // setTimeout(countAndSetTrans, 1000);
+            effect = setInterval(countAndSetTrans, 1000); //effect 默认是全局变量
+        }
+
+        function countAndSetTrans() {
+            if (flag == 1) {
+                if (trans == 0) {
+                    clearInterval(effect);
+
+                    flag = 0;
+                    fadeBtn.disabled = false;
+                    fadeBtn.textContent = "淡入";
+                    return;
+                }
+
+                trans -= 2;
+            } else {
+                if (trans == 10) {
+                    clearInterval(effect);
+
+                    flag = 1;
+                    fadeBtn.disabled = false;
+                    fadeBtn.textContent = "淡出";
+                    return;
+                }
+
+                trans += 2;
+            }
+
+            fadeObj.style.backgroundColor = "rgb(0, 0, 0, " + (trans / 10) + ")";
+            // setTimeout(countAndSetTrans, 1000);
+        }
+
+        var play = document.getElementById("play-btn");
+        var i = 0;
+        play.onclick = function () {
+            var display = document.querySelector(".cssSprite");
+            var counter = setInterval(function () {
+                i -= 480;
+                console.log(i);
+
+                if (i <= -7680) {
+                    clearInterval(counter);
+                    i = 0;
+                }
+
+                display.style.backgroundPosition = "0 " + i + "px";
+            }, 100);
+        }
+    </script>
+</body>
+
+</html>

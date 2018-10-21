@@ -80,8 +80,15 @@ day19:
 
 
 day20、day21:
-    目标：掌握 JavaScript 事件的概念，并能写出基本的事件相关的代码。掌握如何通过 JavaScript 操作 DOM 的样式
+目标`：掌握 JavaScript 事件的概念，并能写出基本的事件相关的代码。掌握如何通过 JavaScript 操作 DOM 的样式
 
+问题：js-21.html
+```js
+    // trans = 1,
+    // trans -= 0.2 计算不准确
+    // 放大成整数计算
+    var trans = 10;
+```
 
 day22、day23、day24:
     目标：掌握 JavaScript 中的各个数据类型、对象的概念及常用方法，
