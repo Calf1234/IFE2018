@@ -103,8 +103,14 @@ compareFunction(a, b) 必须总是对相同的输入返回相同的比较结果�
 ```
 
 day25、day26、day27:
-    目标：学习 JavaScript 的函数，学习如何使用和封装函数，学习Date对象
+目标：学习 JavaScript 的函数，学习如何使用和封装函数，学习Date对象
 
+问题：
+```js
+    //setInterval只执行1次
+    //只需要写abc,不需要写abc().后面的括号不需要。如果要加括号，需要加上引号'abc()'
+    setInterval("updateTime()", 1000);
+```
 
 day28、day29、day30:
     目标：掌握如何分解问题、解决问题，在这个过程中如何设计自己的代码结构，如何优化及重构。

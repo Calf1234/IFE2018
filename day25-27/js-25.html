@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>day25</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <style>
+        .task1,
+        .task2 {
+            padding: 20px;
+            border-bottom: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="task1">
+        <p>我们现在来做一个最简单的时钟，通过小练习来学习 Date，复习定时，然后再练习一下函数的封装
+            <br>具体需求如下：
+            <br>在页面中显示当前日期及时间，按秒更新
+            <br>格式为 YYYY 年 MM 月 DD 日 星期 D HH:mm:ss
+            <br>注意位数的补齐，比如：
+            <br>-- 假设时间为2008年10月10日星期一的12点12分12秒，显示2008年10月10日星期一 12:12:12
+            <br>-- 假设时间为2008年1月1日星期一的3点2分2秒，显示2008年01月01日星期一 03:02:02</p>
+
+        <p id="display"></p>
+    </div>
+
+    <div class="task2">
+        <select id="year-select">
+            <option value="2000">2000</option>
+            <option value="2001">2001</option>
+            <option value="2002">2002</option>
+            ……
+            <option value="2032">2002</option>
+        </select>
+
+        <select id="month-select">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            ……
+            <option value="12">12</option>
+        </select>
+
+        <select id="day-select">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            ……
+            <option value="31">31</option>
+        </select>
+
+        <select id="hour-select">
+            <option value="0">00</option>
+            <option value="1">01</option>
+            ……
+            <option value="23">23</option>
+        </select>
+
+        <select id="minite-select">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            ……
+            <option>59</option>
+        </select>
+
+        <select id="second-select">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            ……
+            <option>59</option>
+        </select>
+
+        <p id="result-wrapper">现在距离 2001年1月1日星期X HH:MM:SS 还有 X 天 X 小时 X 分 X 秒</p>
+    </div>
+
+    <script>
+        var display = document.getElementById("display");
+
+        function addZero(numb) {
+            if (numb < 10) {
+                return "0" + numb;
+            } else {
+                return numb;
+            }
+        }
+
+        function getWeek(day) {
+            var weeks = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+
+            return weeks[day];
+        }
+
+        function getDisplayContent(myDate) {
+            var content = "";
+            content = myDate.getFullYear() + " 年 " + addZero(myDate.getMonth() + 1) + " 月 " + addZero(myDate.getDate()) + " 日 "
+                + getWeek(myDate.getDay()) + " "
+                + addZero(myDate.getHours()) + ":" + addZero(myDate.getMinutes()) + ":" + addZero(myDate.getSeconds());
+
+            return content;
+        }
+
+        function updateTime() {
+            display.innerHTML = getDisplayContent(new Date());
+
+            //RangeError: Maximum call stack size exceeded
+            //setTimeout(updateTime(), 1000);
+        }
+
+        //setInterval只执行1次
+        //只需要写abc,不需要写abc().后面的括号不需要。如果要加括号，需要加上引号'abc()'
+        setInterval("updateTime()", 1000);
+    </script>
+</body>
+
+</html>
