@@ -113,7 +113,65 @@ day25、day26、day27:
 ```
 
 day28、day29、day30:
-    目标：掌握如何分解问题、解决问题，在这个过程中如何设计自己的代码结构，如何优化及重构。
+目标：掌握如何分解问题、解决问题，在这个过程中如何设计自己的代码结构，如何优化及重构。
+
+问题：
+```js
+    //将提示内容添加到email-sug-wrapper中
+    function updateEmailSugList(lists) {
+        var ulEle = document.getElementById("email-sug-wrapper");
+        var liEle, index;
+
+        // 删除ul下所有li节点,不然一直追加li节点
+        // 方法1
+        // ulEle.innerHTML = "";
+        // 方法2    
+        for (index = ulEle.childNodes.length; index > 0; index--) {
+            ulEle.removeChild(ulEle.childNodes[index - 1]);
+        }
+
+        if (lists.length > 0) {
+            for (index = 0; index < lists.length; index++) {
+                liEle = document.createElement("li");
+                liEle.textContent = lists[index];
+                ulEle.appendChild(liEle);
+            }
+        }
+
+    }
+```
+
+``` js
+    function handleClickEvent(event) {
+        // 事件委托，给ul下每个li项绑定click事件
+        if (event.target && event.target.nodeName == "LI") {
+            emailInput.value = event.target.textContent;
+            hideOrDisplayEmailSug(true);
+            setInputFocus();
+        }
+    }
+```
+
+``` js
+    switch (event.keyCode) {
+        case 13: // Enter
+            setLiBgColor();
+            emailInput.value = document.querySelectorAll("li")[liEleSelectedIndex].textContent;
+            hideOrDisplayEmailSug(true);
+            return;
+            break;
+
+        case 27: // ESC
+            // 用户按ESC键的时候，对用户输入进行全选
+            emailInput.select();
+            break;
+
+        case 38: // 上
+            // 光标会回到文本开头
+            event.preventDefault();
+            liEleSelectedIndex--;
+            break;
+```
 
 
 day31、day32、day33:

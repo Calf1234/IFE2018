@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>实现一个邮箱输入的提示功能</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        .task {
+            padding: 10px;
+        }
+
+        #email-input {
+            width: 230px;
+            height: 40px;
+        }
+
+        .email-sug {
+            width: 230px;
+            margin: 0px;
+            padding: 0px;
+            border: 2px solid rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+
+        .email-sug li {
+            list-style-type: none;
+            height: 20px;
+            padding: 8px;
+        }
+
+        .email-sug li:hover {
+            background-color: skyblue;
+        }
+    </style>
+</head>
+
+<body onload="setInputFocus()">
+    <div class="task">
+        <h3>实现邮箱输入的提示功能</h1>
+            <p>
+                第一步是后面几步的起点，所以，我们可以把后面几步各自封装成一个函数，在第一步里进行调用。
+                <br>第二步，获取用户输入，这个比较简单，注意考虑trim。
+                <br>第三步，生成提示框提示内容，根据第二步获得的内容，遍历postfixList数组，生成要在email-sug-wrapper的UL中填充的内容。
+                <br>第四步，根据实际是否有提示内容，控制email-sug-wrapper的显示/隐藏情况。
+                <br>
+                <br>
+                <strong>优化:</strong>
+            </p>
+            <p>当用户输入含有 @ 符号时，我们选取用户输入的@前面的字符来和后缀拼接。
+                <br>当用户输入了 @ 及部分后缀时，只从 postfixList 选取符合用户输入预期的后缀，我们以前缀匹配为要求。
+                <br>当用户输入不满足任何前缀匹配时，则显示全部提示。
+            </p>
+
+            <p>
+                提示还没有直接作用到选择中，我们现在完成以下需求：
+                <br>使用CSS实现：鼠标滑过提示框的某一个提示时，这个提示内容背景色变化，表示鼠标经过了这个DOM节点
+                <br>鼠标如果点击某个提示，则提示内容进入输入框，同时提示框消失
+                <br>在上个步骤结束后，在输入框中任意再输入字符或删除字符，则重新开始出现提示框
+            </p>
+
+            <p>
+                给提示框加上3个按键的功能，分别是回车和上下键，使得可以通过键盘操作进行提示框的选择
+                <br>当有提示框的时候，默认第一个提示为被选择状态，用一个和鼠标滑过不一样的背景色来标识
+                <br>当有输入框的时候，按上键，可以向上移动选择状态，如果按键之前的被选择提示是第一个，则被选状态移到最下面一个
+                <br>当有输入框的时候，按下键，可以向下移动选择状态，如果按键之前的被选择提示是最后一个，则被选状态移到第一个
+                <br>当有输入框时，按回车键，则将当前被选中状态的提示内容，放到输入框中，并隐藏提示框
+                <br>当没有输入框的时候，这3个键盘按键无响应
+                <br>当用户输入发生改变的时候，选择状态都重新切回到第一个提示
+            </p>
+
+            <div class="wrapper">
+                <input id="email-input" type="text">
+                <ul id="email-sug-wrapper" class="email-sug"></ul>
+            </div>
+    </div>
+
+    <script>
+        // 邮箱后缀List参考
+        var postfixList = ['163.com', 'gmail.com', '126.com', 'qq.com', '263.net'];
+
+        var emailInput = document.getElementById("email-input");
+
+        var liEleSelectedIndex = -1;
+
+        //控制email-sug-wrapper的显示/隐藏情况
+        function hideOrDisplayEmailSug(flag) {
+            var emailSug = document.getElementById("email-sug-wrapper");
+
+            // flag true：隐藏提示框
+            if (flag) {
+                emailSug.style = "display: none;";
+            } else {
+                emailSug.style = "display: block;";
+            }
+        }
+
+        //拿到input输入框的输入内容trim后返回  
+        function getEmailInputContent() {
+            var str = emailInput.value;
+
+            return str.trim();
+        }
+
+        // baseStr: 用户输入内容
+        function GeneratePromptContent(baseStr) {
+            var promptContent = [];
+
+            //当用户输入含有 @ 符号时，我们选取用户输入的@前面的字符来和后缀拼接
+            var index = baseStr.indexOf("@");
+
+            if (index != -1) {
+                var tmp = baseStr;
+                var suffix = baseStr.slice(index + 1);
+                var suffixLength = suffix.length;
+                baseStr = tmp.slice(0, index);
+
+                //用户输入@后缀 和拼接内容匹配上，则只返回匹配项
+                for (index = 0; index < postfixList.length; index++) {
+                    if ((postfixList[index].slice(0, suffixLength) === suffix) && suffix != "") {
+                        promptContent.push(baseStr + "@" + postfixList[index]);
+                    }
+                }
+
+                if (promptContent.length > 0) {
+                    return promptContent;
+                }
+            }
+
+            // @后缀没有匹配上，则全部提示
+            for (index = 0; index < postfixList.length; index++) {
+                promptContent[index] = baseStr + "@" + postfixList[index]
+            }
+
+            return promptContent;
+        }
+
+        //将提示内容添加到email-sug-wrapper中
+        function updateEmailSugList(lists) {
+            var ulEle = document.getElementById("email-sug-wrapper");
+            var liEle, index;
+
+            // 删除ul下所有li节点
+            // 方法1
+            // ulEle.innerHTML = "";
+            // 方法2    
+            for (index = ulEle.childNodes.length; index > 0; index--) {
+                ulEle.removeChild(ulEle.childNodes[index - 1]);
+            }
+
+            if (lists.length > 0) {
+                for (index = 0; index < lists.length; index++) {
+                    liEle = document.createElement("li");
+                    liEle.textContent = lists[index];
+                    ulEle.appendChild(liEle);
+                }
+            }
+
+        }
+
+
+        //过去一般都使用onchange/onkeyup/onkeypress/onkeydown实现，但是这存在着一些不好的用户体验。
+        //比如onchange事件只在键盘或者鼠标操作改变对象属性，且失去焦点时触发，脚本触发无效；
+        //而onkeydown/onkeypress/onkeyup在处理复制、粘贴、拖拽、长按键（按住键盘不放）等细节上并不完善。
+        //onpropertychange为IE专属的。
+        emailInput.addEventListener("input", handleInputEvent);
+
+        function handleInputEvent() {
+            liEleSelectedIndex = 0;
+
+            var userInputContent = getEmailInputContent();
+            console.log("userInputContent: [" + userInputContent + "]");
+
+            if (userInputContent == "") {
+                hideOrDisplayEmailSug(true);
+                return;
+            }
+
+            var promptContent = GeneratePromptContent(userInputContent);
+            // console.log("promptContent: [" + promptContent + "]");
+
+            updateEmailSugList(promptContent);
+
+            hideOrDisplayEmailSug(false);
+
+            setLiBgColor();
+        }
+
+        document.getElementById("email-sug-wrapper").addEventListener("click", handleClickEvent);
+
+        function handleClickEvent(event) {
+            // 事件委托，给ul下每个li项绑定click事件
+            if (event.target && event.target.nodeName == "LI") {
+                emailInput.value = event.target.textContent;
+                hideOrDisplayEmailSug(true);
+                setInputFocus();
+            }
+        }
+
+        function setInputFocus() {
+            document.getElementById("email-input").focus();
+        }
+
+        emailInput.addEventListener("keydown", handleKeyEvent);
+
+        function handleKeyEvent(event) {
+
+            if (getEmailInputContent() === "") {
+                return;
+            }
+
+            clearAllLiBgColor();
+
+            switch (event.keyCode) {
+                case 13: // Enter
+                    setLiBgColor();
+                    emailInput.value = document.querySelectorAll("li")[liEleSelectedIndex].textContent;
+                    hideOrDisplayEmailSug(true);
+                    return;
+                    break;
+
+                case 27: // ESC
+                    // 用户按ESC键的时候，对用户输入进行全选
+                    emailInput.select();
+                    break;
+
+                case 38: // 上
+                    // 光标会回到文本开头
+                    event.preventDefault();
+                    liEleSelectedIndex--;
+                    break;
+
+                case 40: // 下
+                    event.preventDefault();
+                    liEleSelectedIndex++;
+                    break;
+
+                default:
+                    // liEleSelectedIndex = 0;
+                    break;
+            }
+
+            setLiBgColor();
+            console.log("keydown event, keyCode: " + event.keyCode + ", index: " + liEleSelectedIndex);
+        }
+
+        function clearAllLiBgColor() {
+            var liElements = document.querySelectorAll("li");
+            for (var liEle of liElements) {
+                liEle.style.backgroundColor = "";
+            }
+        }
+
+        // liEleSelectedIndex项 设置背景色
+        function setLiBgColor() {
+            var liElements = document.querySelectorAll("li");
+
+            if (liElements.length > 0) {
+                if (liEleSelectedIndex < 0) {
+                    liEleSelectedIndex = 0;
+                } else if (liEleSelectedIndex >= liElements.length) {
+                    liEleSelectedIndex = liElements.length - 1;
+                } else if (liEleSelectedIndex < liElements.length) {
+                    // liEleSelectedIndex 不变
+                }
+
+                liElements[liEleSelectedIndex].style.backgroundColor = "pink";
+            }
+        }
+
+    </script>
+</body>
+
+</html>
