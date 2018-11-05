@@ -28,9 +28,6 @@ function createTable(data, proRegDataLength, regRegDataLength) {
         col.appendChild(content);
         row.appendChild(col);
 
-        // console.log("get data: ");
-        // console.log(data);
-
         data.forEach(item => {
             col = document.createElement("td");
             content = document.createTextNode(item.product);

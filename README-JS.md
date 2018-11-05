@@ -175,16 +175,3 @@ day28、day29、day30:
 
 
 day31、day32、day33:
-day34、day35、day36:
-    目标：MIS系统
-
-
-day42、day43:
-day44、day45、day46:
-day47、day49、day49:
-day50、day51、day52、day53:
-
-
-day54、day55、day56:
-day58、day59、day60、day61、day62:
-day63、day64、da65、day66:

@@ -68,7 +68,6 @@ function getCheckedData(inputs) {
         }
     });
 
-    // console.log("key value: " + regData);
     return regData;
 }
 

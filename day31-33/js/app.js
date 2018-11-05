@@ -9,9 +9,20 @@ function init() {
 
     var regKeyValue = getCheckedData(regions);
     var proKeyValue = getCheckedData(products);
+    var data = getFilterData(proKeyValue, regKeyValue);
 
-    var table = createTable(getFilterData(proKeyValue, regKeyValue), proKeyValue.length, regKeyValue.length);
+    // 表格
+    var table = createTable(data, proKeyValue.length, regKeyValue.length);
     tableContainer.appendChild(table);
+
+    // 柱状图
+    var container = document.getElementById("svg-wrapper");
+    var barChart = drawBarChart(data);
+    container.appendChild(barChart);
+
+    // 折线图
+    drawLineChart(data);
+
 }
 
 init();
