@@ -18,7 +18,7 @@ function createTable(data, proRegDataLength, regRegDataLength) {
     var row, col, content;
 
     if ((regRegDataLength === 1) && proRegDataLength > 1) {
-        table.appendChild(createTableHeader(false));
+        table.appendChild(createTableHeader(true));
 
         row = document.createElement("tr");
         col = document.createElement("td");
@@ -46,7 +46,7 @@ function createTable(data, proRegDataLength, regRegDataLength) {
         });
 
     } else {
-        table.appendChild(createTableHeader(true));
+        table.appendChild(createTableHeader(false));
 
         for (var index = 0; index < proRegDataLength; index++) {
             row = document.createElement("tr");
@@ -59,7 +59,7 @@ function createTable(data, proRegDataLength, regRegDataLength) {
 
             for (var i = 0; i < regRegDataLength; i++) {
                 col = document.createElement("td");
-                content = document.createTextNode(data[i * index].region);
+                content = document.createTextNode(data[i].region);
                 col.appendChild(content);
                 row.appendChild(col);
 
@@ -78,8 +78,111 @@ function createTable(data, proRegDataLength, regRegDataLength) {
         }
     }
 
+    table.addEventListener("mouseover", handleMouseOverEvent);
+    table.addEventListener("click", handleClickEvent);
 
     return table;
+}
+
+function handleMouseOverEvent(e) {
+    var target = e.target;
+
+    if (target.nodeName === "TD" && target.parentNode.nodeName === "TR") {
+        e.stopPropagation();
+        if (!isNaN(target.textContent)) {
+            // css3 content结合 attr()
+            target.setAttribute("data-attr", "编辑");
+        }
+    }
+}
+
+var originSale;
+
+function handleClickEvent(e) {
+    var target = e.target;
+
+    if (target.nodeName === "TD" && target.parentNode.nodeName === "TR") {
+        e.stopPropagation();
+
+        var editPre = document.querySelector("#edit");
+
+        // 查看下前面有没有编辑状态，但是没有处理完成的情况
+        if (editPre) {
+            var content = editPre.querySelector("input").value;
+
+            if (isNaN(content)) {
+                alert("输入内容不是数字，请更正");
+            } else {
+                editPre.innerHTML = content;
+                editPre.id = "";
+            }
+
+            return;
+        } else {
+
+            if (isNaN(target.textContent)) {
+                return;
+            }
+
+            target.setAttribute("data-attr", "");
+            originSale = target.textContent;
+            target.id = "edit";
+            target.innerHTML = "<input type='text' value='" + originSale
+                + "'><button id='confirm'>确定</button><button id='cancel'>取消</button>";
+
+            var element = target.querySelector("input");
+            // element.setfocus();
+            element.addEventListener("keydown", handleKeyDownEvent);
+
+            return;
+        }
+    }
+
+    if (target.id === "confirm") {
+        var content = target.parentNode.querySelector("input").value;
+
+        if (isNaN(content)) {
+            alert("输入内容不是数字，请更正");
+        } else {
+            target.parentNode.id = "";
+            target.parentNode.innerHTML = content;
+        }
+
+    } else if (target.id === "cancel") {
+
+        target.parentNode.id = "";
+        target.parentNode.innerHTML = originSale;
+    }
+
+    return;
+}
+
+function handleKeyDownEvent(e) {
+    e.stopPropagation();
+    var target = e.target;
+
+    // console.log(e.keyCode);
+    switch (e.keyCode) {
+        case 13:
+            // enter
+            if (isNaN(target.value)) {
+                alert("输入内容不是数字，请更正");
+            } else {
+                target.parentNode.id = "";
+                target.parentNode.innerHTML = target.value;
+            }
+            break;
+
+        case 27:
+            // esc
+            // keypress中不接收esc按键
+            target.parentNode.id = "";
+            target.parentNode.innerHTML = originSale;
+            break;
+
+        default:
+            break;
+    }
 }
 
 function clearTable() {

@@ -30,6 +30,10 @@ function handleChangeEvent(event) {
     var regRegData = getCheckedData(regions);
     var dataRecv = getFilterData(proRegData, regRegData);
 
+    // console.log("begin");
+    // console.log(dataRecv);
+    // console.log(proRegData);
+    // console.log(regRegData);
     tableContainer.appendChild(createTable(dataRecv, proRegData.length, regRegData.length));
 }
 

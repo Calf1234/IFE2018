@@ -4,6 +4,10 @@
 //     地区：华东 默认选中
 
 function init() {
+
+    document.getElementById("saveData").addEventListener("click", saveData);
+    document.getElementById("clearLocalStorage").addEventListener("click", clearLocalStorage);
+
     var regions = regionContainer.querySelectorAll("input");
     var products = productContainer.querySelectorAll("input");
 
