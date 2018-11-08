@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>day39</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body>
+    <button id="a">A</button>
+    <button id="b">B</button>
+    <button id="c">C</button>
+
+    <button id="d">D</button>
+    <button id="e">E</button>
+    <button id="f">F</button>
+
+    <div id="cont"></div>
+    <div id="contABC"></div>
+    <div id="contDEF"></div>
+
+    <script>
+
+        document.getElementById("a").addEventListener("click", function () {
+            window.location.hash = "a";
+        });
+        document.getElementById("b").addEventListener("click", function () {
+            window.location.hash = "b";
+        });
+        document.getElementById("c").addEventListener("click", function () {
+            window.location.hash = "c";
+        });
+        document.getElementById("d").addEventListener("click", function () {
+            window.location.hash = "d";
+        });
+        document.getElementById("e").addEventListener("click", function () {
+            window.location.hash = "e";
+        });
+        document.getElementById("f").addEventListener("click", function () {
+            window.location.hash = "f";
+        });
+
+        function decHash() {
+            // #a
+            var hashText = window.location.hash;
+            var decIndex = hashText.indexOf("#") + 1;
+
+            // a
+            return hashText.slice(decIndex);
+        }
+
+        function render() {
+            var decHashText = decHash();
+
+            var archor = document.getElementById(decHashText);
+
+            if (archor) {
+                document.getElementById("cont").innerHTML = archor.textContent;
+            }
+        }
+
+        window.onhashchange = render;
+
+        render();
+    </script>
+</body>
+
+</html>
