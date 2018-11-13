@@ -26,6 +26,46 @@
         console.log(ifeRestaurant.staff);
     </pre>
 
+    <pre>
+        //  创建一个餐厅
+        let restaurant = new Restaurant({
+            cash: 233333333,
+            seats: 1,
+            staff: []
+        });
+
+        //创建一个服务员
+        Waiter.getInstance("Kina", "2333");
+        restaurant.hire(Waiter.getInstance());
+        //创建一个厨师
+        Cook.getInstance("nana", "2333");
+        restaurant.hire(Cook.getInstance());
+        console.log(JSON.stringify(restaurant.staff));
+
+        //顾客列表
+        let customers = [];
+        let c1 = new Customer();
+        let c2 = new Customer();
+        customers.push(c1);
+        customers.push(c2);
+
+        //   菜单
+        let dishList = [];
+        dishList.push(new Dish("酸菜鱼", 10, 20));
+        dishList.push(new Dish("烤鱼", 30, 50));
+        dishList.push(new Dish("麻辣香锅", 10, 40));
+        dishList.push(new Dish("烤肉", 18, 38));
+
+        //招呼顾客
+        for (let i = 0; i < customers.length; i++) {
+            let random = Math.floor(Math.random() * dishList.length);
+            let dish = dishList[random];
+            customers[i].order(dish.name);
+            Waiter.getInstance().work(dish.name);
+            customers[i].eat(dish.name);
+        }
+    </pre>
+
     <script>
 
         function extend(Derived, Base) {
@@ -61,8 +101,11 @@
         // 职员类
         // 属性：ID，姓名，工资
         // 方法：完成一次工作
+        var id = 0;
+
         function Staff(config) {
-            this.id = config.id;
+            id += 1;
+            this.id = id;
             this.name = config.name;
             this.salary = config.salary;
 
@@ -73,71 +116,197 @@
 
         // 服务员类，继承自职员
         // 完成一次工作：如果参数是个数组，则记录客人点菜，如果参数不是数组则是上菜行为
-        function Waiter(name, salary) {
-            Staff.call(this, {
-                name: name,
-                salary: salary
-            });
-        }
+        // function Waiter(name, salary) {
+        //     Staff.call(this, {
+        //         name: name,
+        //         salary: salary
+        //     });
+        // }
 
-        extend(Waiter, Staff);
+        // extend(Waiter, Staff);
 
-        Waiter.prototype.work = function (err) {
-            if (Array.isArray(arr) === "Array") {
-                console.log("记录客人点菜");
-            } else {
-                console.log("上菜");
+        // Waiter.prototype.work = function (err) {
+        //     if (Array.isArray(arr) === "Array") {
+        //         console.log("记录客人点菜");
+        //     } else {
+        //         console.log("上菜");
+        //     }
+        // };
+        var Waiter = (function () {
+            var instance = null;
+
+            function createWaiter(name, salary) {
+                Staff.call(this, {
+                    name: name,
+                    salary: salary
+                });
             }
-        };
+
+            createWaiter.prototype = {
+                constructor: createWaiter,
+                work: function (dishes) {
+                    if (dishes instanceof Array) {
+                        console.log("服务员记录客人点菜");
+                        Customer.getInstance().order(dishes);
+                        Waiter.getInstance().callCook(dishes);
+                    } else {
+                        console.log("服务员上菜" + dishes + "啦");
+                    }
+                },
+
+                callCook: function (dishes) {
+                    console.log("服务员告诉厨师要做的菜");
+                    Cook.getInstance().work(dishes);
+                }
+            };
+
+            return {
+                getInstance: function (name, salary) {
+                    if (instance == null) {
+                        instance = new createWaiter(name, salary);
+                    }
+                    return instance;
+                }
+            };
+        })();
+
 
         // 厨师类，继承自职员
         // 完成一次工作：烹饪出菜品
-        function Cook(name, salary) {
-            Staff.call(this, {
-                name: name,
-                salary: salary
-            });
-        }
+        // function Cook(name, salary) {
+        //     Staff.call(this, {
+        //         name: name,
+        //         salary: salary
+        //     });
+        // }
 
-        extend(Cook, Staff);
+        // extend(Cook, Staff);
 
-        Cook.prototype.work = function () {
-            console.log("烹饪出菜品");
-        }
+        // Cook.prototype.work = function () {
+        //     console.log("烹饪出菜品");
+        // }
+        var Cook = (function () {
+            var instance = null;
+
+            function createCook(name, salary) {
+                Staff.call(this, {
+                    name: name,
+                    salary: salary
+                });
+            }
+
+            createCook.prototype = {
+                constructor: createCook,
+                work: function (dishes) {
+                    if (dishes instanceof Array) {
+                        for (let index = 0; index < dishes.length; index++) {
+                            console.log("厨师做了" + dishes[index]);
+                            Waiter.getInstance().work(dishes[index]);
+                        }
+                    } else {
+                        console.log("厨师做了" + dishes);
+                        Waiter.getInstance().doWork(dishes);
+                    }
+                }
+            };
+
+            return {
+                getInstance: function (name, salary) {
+                    if (instance == null) {
+                        instance = new createCook(name, salary);
+                    }
+                    return instance;
+                }
+            };
+        })();
+
 
         // 顾客类
         // 方法：点菜，吃
-        function Customer() { }
+        var cId = 0;
 
-        Customer.prototype.order = function () {
-            console.log("顾客点菜");
+        function Customer() {
+            cId += 1;
+            this.cId = cId;
+            console.log("顾客" + this.cId + "进来啦");
+        }
+
+        Customer.prototype.order = function (dish) {
+            console.log("顾客" + this.cId + "点菜" + dish);
+
+            var dishes = [];
+            dishes.push(dish);
         };
 
-        Customer.prototype.eat = function () {
-            console.log("顾客吃");
+        Customer.prototype.eat = function (dish) {
+            console.log("顾客" + this.cId + "吃" + dish);
         };
 
         // 菜品类
         // 属性：名字、烹饪成本、价格
-        function Dish() {
-            this.name = "";
-            this.cost = 0;
-            this.price = 0;
+        function Dish(name, cost, price) {
+            this.name = name;
+            this.cost = cost;
+            this.price = price;
         }
 
-        var ifeRestaurant = new Restaurant({
-            cash: 1000000,
-            seats: 20,
+
+
+        // var ifeRestaurant = new Restaurant({
+        //     cash: 1000000,
+        //     seats: 20,
+        //     staff: []
+        // });
+
+        // var newCook = new Cook("Tony", 10000);
+        // ifeRestaurant.hire(newCook);
+
+        // console.log(ifeRestaurant.staff);
+
+        // ifeRestaurant.fire(newCook);
+        // console.log(ifeRestaurant.staff);
+
+        //  创建一个餐厅
+        let restaurant = new Restaurant({
+            cash: 233333333,
+            seats: 1,
             staff: []
         });
 
-        var newCook = new Cook("Tony", 10000);
-        ifeRestaurant.hire(newCook);
+        //创建一个服务员
+        Waiter.getInstance("Kina", "2333");
 
-        console.log(ifeRestaurant.staff);
+        // waiter中实例对象还是 {"Kina", "2333"}
+        Waiter.getInstance("kkkkk", "2222222");
 
-        ifeRestaurant.fire(newCook);
-        console.log(ifeRestaurant.staff);
+        restaurant.hire(Waiter.getInstance());
+        //创建一个厨师
+        Cook.getInstance("nana", "2333");
+        restaurant.hire(Cook.getInstance());
+        console.log(JSON.stringify(restaurant.staff));
+
+        //顾客列表
+        let customers = [];
+        let c1 = new Customer();
+        let c2 = new Customer();
+        customers.push(c1);
+        customers.push(c2);
+
+        //   菜单
+        let dishList = [];
+        dishList.push(new Dish("酸菜鱼", 10, 20));
+        dishList.push(new Dish("烤鱼", 30, 50));
+        dishList.push(new Dish("麻辣香锅", 10, 40));
+        dishList.push(new Dish("烤肉", 18, 38));
+
+        //招呼顾客
+        for (let i = 0; i < customers.length; i++) {
+            let random = Math.floor(Math.random() * dishList.length);
+            let dish = dishList[random];
+            customers[i].order(dish.name);
+            Waiter.getInstance().work(dish.name);
+            customers[i].eat(dish.name);
+        }
 
     </script>
 </body>
